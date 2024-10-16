@@ -3,60 +3,77 @@
 #	Copyright (c) 2024, Adam Nogowski		#
 #############################################
 
+import logging
+import pytest
+from pytest import Pytester
 
-def test_bar_fixture(pytester):
-	"""Make sure that pytest accepts our fixture."""
+default_ini_file: str = """
+markers = ["it", "rt", "vt"]
+"""
 
-	# create a temporary pytest test module
-	pytester.makepyfile("""
-        def test_sth(bar):
-            assert bar == "europython2015"
-    """)
+single_test_file: str = "test_single.py"
 
-	# run pytest with the following cmd args
-	result = pytester.runpytest('--foo=europython2015', '-v')
+multi_test_file: str = "test_multi.py"
 
+
+def test_help_message(pytester: Pytester):
+	result = pytester.runpytest('--help',)
 	# fnmatch_lines does an assertion internally
 	result.stdout.fnmatch_lines([
-	    '*::test_sth PASSED*',
+	    'mark-count:',
+	    '*--count-marker=COUNT_MARKERS*Set markers to count (Space Delimited). Will automatically report unique tests. ex: "it vt"',
 	])
+
+
+def test_count_it(pytester: Pytester):
+	"""Make sure that pytest accepts our fixture."""
+	pytester.makeini(default_ini_file)
+
+	# create a temporary pytest test module
+	pytester.copy_example(single_test_file)
+
+	# run pytest with the following cmd args
+	result = pytester.inline_run('--mark-count="it"', '-v')
+	reports = result.getreports("pytest_runtest_logreport")
+
+	print(reports)
+	logging.info(reports)
 
 	# make sure that we get a '0' exit code for the testsuite
 	assert result.ret == 0
 
 
-def test_help_message(pytester):
-	result = pytester.runpytest('--help',)
-	# fnmatch_lines does an assertion internally
-	result.stdout.fnmatch_lines([
-	    'mark-count:',
-	    '*--foo=DEST_FOO*Set the value for the fixture "bar".',
-	])
+def test_count_single_it_vt(pytester: Pytester):
+	"""Make sure that pytest accepts our fixture."""
+	pytester.makeini(default_ini_file)
+
+	# create a temporary pytest test module
+	pytester.copy_example(single_test_file)
+
+	# run pytest with the following cmd args
+	result = pytester.inline_run('--mark-count="it vt"', '-v')
+	reports = result.getreports("pytest_runtest_logreport")
+
+	print(reports)
+	logging.info(reports)
+
+	# make sure that we get a '0' exit code for the testsuite
+	assert result.ret == 0
 
 
-def test_hello_ini_setting(pytester):
-	pytester.makeini("""
-        [pytest]
-        HELLO = world
-    """)
+def test_count_multi_it_vt(pytester: Pytester):
+	"""Make sure that pytest accepts our fixture."""
+	pytester.makeini(default_ini_file)
 
-	pytester.makepyfile("""
-        import pytest
+	# create a temporary pytest test module
+	pytester.makepyfile(multi_test_file)
 
-        @pytest.fixture
-        def hello(request):
-            return request.config.getini('HELLO')
+	# run pytest with the following cmd args
+	result = pytester.inline_run('--mark-count="it vt"', '-v')
+	reports = result.getreports("pytest_runtest_logreport")
 
-        def test_hello_world(hello):
-            assert hello == 'world'
-    """)
-
-	result = pytester.runpytest('-v')
-
-	# fnmatch_lines does an assertion internally
-	result.stdout.fnmatch_lines([
-	    '*::test_hello_world PASSED*',
-	])
+	print(reports)
+	logging.info(reports)
 
 	# make sure that we get a '0' exit code for the testsuite
 	assert result.ret == 0

@@ -5,11 +5,22 @@
 		"editor.formatOnSaveMode": "file"
 	},
 	"cSpell.words": [
+		"addini",
+		"addoption",
+		"collectreport",
 		"fixturenames",
+		"getgroup",
+		"getini",
+		"getreports",
+		"itemcollected",
+		"makeini",
+		"makepyfile",
 		"metafunc",
 		"nodeid",
 		"Nogowski",
-		"pytest"
+		"pluginmanager",
+		"pytest",
+		"pytester"
 	],
 	"editor.bracketPairColorization.enabled": true, //Cycle through colors for different brackets
 	"editor.detectIndentation": false, //False: Manually set tab size
@@ -52,5 +63,10 @@
 	],
 	"python.analysis.ignore": [
 		".venv/**"
-	]
+	],
+	"python.testing.pytestArgs": [
+		"tests"
+	],
+	"python.testing.unittestEnabled": false,
+	"python.testing.pytestEnabled": true
 }
