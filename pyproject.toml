@@ -29,7 +29,6 @@ readme = { file = "README.rst", content-type = "text/x-rst" }
 requires-python = ">=3.10"
 authors = [{ name = "Adam Nogowski", email = "anogowski@live.com" }]
 maintainers = [{ name = "Adam Nogowski", email = "anogowski@live.com" }]
-license = { file = "LICENSE" }
 classifiers = [
 	"Framework :: Pytest",
 	"Development Status :: 4 - Beta",
@@ -44,8 +43,8 @@ classifiers = [
 	"Programming Language :: Python :: 3 :: Only",
 	"Programming Language :: Python :: Implementation :: CPython",
 	"Programming Language :: Python :: Implementation :: PyPy",
-	"License-File: LICENSE",
-	"License-Expression: BSD-3-Clause AND MPL 2.0",
+	"License-File :: LICENSE",
+	"License-Expression :: BSD-3-Clause AND MPL 2.0",
 	"Topic :: Software Development :: Quality Assurance",
 	"Topic :: Software Development :: Testing",
 	"Topic :: Utilities",
