@@ -11,18 +11,13 @@ on:
 jobs:
   build:
     name: Build Package
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13', 'pypy-3.8']
-    
+    runs-on: ubuntu-latest   
     steps:
       - uses: actions/checkout@main
       - name: Set up Python
         uses: actions/setup-python@main
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.8
 
       - name: Install dependencies
         run: |
