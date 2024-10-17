@@ -7,12 +7,17 @@
 	"cSpell.words": [
 		"addini",
 		"addoption",
+		"addopts",
+		"argparsing",
+		"collectionfinish",
 		"collectreport",
+		"conftests",
 		"fixturenames",
 		"getgroup",
 		"getini",
 		"getreports",
 		"itemcollected",
+		"logreport",
 		"makeini",
 		"makepyfile",
 		"metafunc",
@@ -20,7 +25,10 @@
 		"Nogowski",
 		"pluginmanager",
 		"pytest",
-		"pytester"
+		"pytester",
+		"runpytest",
+		"showlocals",
+		"UNMARK"
 	],
 	"editor.bracketPairColorization.enabled": true, //Cycle through colors for different brackets
 	"editor.detectIndentation": false, //False: Manually set tab size

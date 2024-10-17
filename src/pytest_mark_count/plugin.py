@@ -4,31 +4,24 @@
 #############################################
 
 # Python Includes
-from hmac import new
 import logging
-from dataclasses import dataclass
-from typing import Any, Final, Generator, Iterable
+from typing import Any, Final
 from enum import StrEnum
+from pathlib import Path
 
 # Pytest Includes
 import pytest
-from pytest import Item, MarkDecorator, TestReport, CollectReport
+from pytest import Item
 from pytest_metadata.plugin import metadata_key
 
-from _pytest.mark import Mark
-from _pytest.nodes import Item
-from _pytest.runner import CallInfo
-from _pytest.config import Config, Notset
-from _pytest.main import Session
+from _pytest.config import Config
 from _pytest.config.argparsing import Parser
-from _pytest.fixtures import FixtureRequest
-from _pytest.terminal import TerminalReporter
-from _pytest.scope import Scope
 
 
 def pytest_addoption(parser: Parser):
 	group = parser.getgroup('mark-count')
-	group.addoption('--count-marker', action='store', dest='count_markers', default=None, help="""Set markers to count (Space Delimited).\nWill automatically report unique tests.\nex: 'it vt'""")
+	group.addoption('--mark-count', action='store', dest='count_markers', default=None, help="""Set markers to count (Space Delimited).\nReports marked, unmarked, unique, and total tests.\nex: --marker-count=\"it vt\"""")
+	group.addoption('--mark-count-sep', action='store', dest='separate_markers', default=True, help="""Separate markers dict into individual metadata keys\nex: --marker-count-sep=False""")
 
 
 def pytest_load_initial_conftests(early_config: Config, parser: Parser):
@@ -36,32 +29,18 @@ def pytest_load_initial_conftests(early_config: Config, parser: Parser):
 	early_config.pluginmanager.register(mark_count_plugin)
 
 
-@dataclass
-class MarkData:
-	_nodeid: Final[str]
-	_markers: Final[list[str] | None]
-
-	@property
-	def nodeid(self) -> str:
-		return self._nodeid
-
-	@property
-	def markers(self) -> list[str] | None:
-		return self._markers
-
-	@property
-	def num_markers(self) -> int:
-		num_markers: int = 0
-		if self._markers is not None:
-			num_markers = len(self._markers)
-		return num_markers
-
-
 class DefaultMarkers(StrEnum):
-	MARKED = "marked"
-	UNMARKED = "unmarked"
-	UNIQUE = "unique"
-	TOTAL = "total"
+	TOTAL = "total_found_items"
+	MARK = "marked_found_items"
+	UNMARK = "unmarked_found_items"
+	SINGLE_FOUND_MARK = "single_marked_found_items"
+	MULTI_FOUND_MARK = "multi_marked_found_items"
+	UNIQUE_SEARCH_MARK = "unique_marked_searched_items"
+	SINGLE_SEARCH_MARK = "single_marked_searched_items"
+	MULTI_SEARCH_MARK = "multi_marked_searched_items"
+
+	def __repr__(self) -> str:
+		return f"{self.value}"
 
 
 class MarkCountPlugin:
@@ -71,39 +50,25 @@ class MarkCountPlugin:
 	_markers_count: dict[str, int] = {}
 
 	def __init__(self, config: Config):
+		temp_markers: str | None = None
 		self.config = config
-		self._markers_count[DefaultMarkers.MARKED] = 0
-		self._markers_count[DefaultMarkers.UNMARKED] = 0
-		self._markers_count[DefaultMarkers.UNIQUE] = 0
-		self._markers_count[DefaultMarkers.TOTAL] = 0
+
+		for item in DefaultMarkers:
+			self._markers_count[item] = 0
 
 		# self._ini_markers = self.config.inicfg.get("markers")
-
-		temp_markers: Any = self.config.getoption("count_markers")
+		for key, value in self.config.known_args_namespace._get_kwargs():
+			if key == "count_markers":
+				temp_markers = value
+				break
 
 		if temp_markers is not None and isinstance(temp_markers, str):
 			try:
-				self._search_markers = temp_markers.split()
+				self._search_markers = temp_markers.split(" ")
 				for marker in self._search_markers:
 					self._markers_count[marker] = 0
 			except:
 				logging.error("Please put the marker(s) in a space delimited list")
-
-	@property
-	def num_marked_tests(self) -> int:
-		return self.query_markers_count(DefaultMarkers.MARKED)
-
-	@property
-	def num_unmarked_tests(self) -> int:
-		return self.query_markers_count(DefaultMarkers.UNMARKED)
-
-	@property
-	def num_unique_marked_tests(self) -> int:
-		return self.query_markers_count(DefaultMarkers.UNIQUE)
-
-	@property
-	def num_total_tests(self) -> int:
-		return self.query_markers_count(DefaultMarkers.TOTAL)
 
 	@property
 	def markers_to_search_for(self) -> list[str] | None:
@@ -115,30 +80,43 @@ class MarkCountPlugin:
 
 	def pytest_itemcollected(self, item: Item) -> None:
 		self._markers_count[DefaultMarkers.TOTAL] += 1
-		if isinstance(self._search_markers, list) or isinstance(self._search_markers, str):
-			item_markers: list[str] = [x.name for x in item.own_markers]
+		item_markers: list[str] = [x.name for x in item.own_markers]
 
-			if len(item_markers) > 0:
-				self._markers_count[DefaultMarkers.MARKED] += 1
-			else:
-				self._markers_count[DefaultMarkers.UNMARKED] += 1
+		if len(item_markers) > 0:
+			self._markers_count[DefaultMarkers.MARK] += 1
+		else:
+			self._markers_count[DefaultMarkers.UNMARK] += 1
+
+		if len(item_markers) == 1:
+			self._markers_count[DefaultMarkers.SINGLE_FOUND_MARK] += 1
+		elif len(item_markers) > 1:
+			self._markers_count[DefaultMarkers.MULTI_FOUND_MARK] += 1
+
+		if isinstance(self._search_markers, list) or isinstance(self._search_markers, str):
 
 			intersection: set[str] = set(item_markers) & set(self._search_markers)
 			if len(intersection) > 0:
-				self._markers_count[DefaultMarkers.UNIQUE] += 1
+				self._markers_count[DefaultMarkers.UNIQUE_SEARCH_MARK] += 1
+
+			if len(intersection) == 1:
+				self._markers_count[DefaultMarkers.SINGLE_SEARCH_MARK] += 1
+
+			elif len(intersection) > 1:
+				self._markers_count[DefaultMarkers.MULTI_SEARCH_MARK] += 1
 
 			for name in intersection:
 				self._markers_count[name] += 1
 
-	def pytest_collection_finish(self, session: Session) -> None:
-		...
+	def pytest_report_collectionfinish(self, config: Config, start_path: Path, items: list[Item]) -> str | list[str]:
+		self.config.stash[metadata_key]["Searched Markers"] = self.config.option.count_markers
+
+		if self.config.option.separate_markers:
+			for key, value in self._markers_count.items():
+				config.stash[metadata_key][key] = value
+		else:
+			self.config.stash[metadata_key]["Marked Dict"] = self._markers_count
+
+		return f"Mark-Count: {str(self.mark_count_dict)}"
 
 	def query_markers_count(self, key: str | DefaultMarkers) -> int:
 		return self._markers_count[key]
-
-	def pytest_collectreport(self, report: CollectReport) -> None:
-		new_sections: Iterable[tuple[str, str]] = []
-		for key, value in self._markers_count.items():
-			new_sections.append((key, str(value)))
-
-		report.sections = report.sections + new_sections

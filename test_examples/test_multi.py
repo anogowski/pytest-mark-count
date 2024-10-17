@@ -1,3 +1,8 @@
+#############################################
+#	Dual License: BSD-3-Clause AND MPL-2.0	#
+#	Copyright (c) 2024, Adam Nogowski		#
+#############################################
+
 import pytest
 
 
@@ -5,8 +10,8 @@ def test_unmarked_pass():
 	assert True, "Failed"
 
 
-def test_unmarked_fail():
-	assert False, "Failed"
+def test_unmarked_pass_2():
+	assert True, "Failed"
 
 
 @pytest.mark.it
@@ -15,8 +20,8 @@ def test_it_pass():
 
 
 @pytest.mark.it
-def test_it_fail():
-	assert False, "Failed"
+def test_it_pass_2():
+	assert True, "Failed"
 
 
 @pytest.mark.rt
@@ -25,8 +30,8 @@ def test_rt_pass():
 
 
 @pytest.mark.rt
-def test_rt_fail():
-	assert False, "Failed"
+def test_rt_pass_2():
+	assert True, "Failed"
 
 
 @pytest.mark.vt
@@ -35,8 +40,8 @@ def test_vt_pass():
 
 
 @pytest.mark.vt
-def test_vt_fail():
-	assert False, "Failed"
+def test_vt_pass_2():
+	assert True, "Failed"
 
 
 @pytest.mark.it
