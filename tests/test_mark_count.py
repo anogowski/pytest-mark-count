@@ -83,11 +83,10 @@ def test_count_it(pytester: Pytester):
 	pytester.makepyfile(test_single=SINGLE_MARK_FILE)
 
 	# run pytest with the following cmd args
-	result: RunResult = pytester.runpytest('--mark-count="it"')
-	result.stdout.fnmatch_lines("*'it': 1*")
+	result = pytester.inline_run('--collect-only', '--mark-count="it"', '-v')
+	reports = result.getreports("pytest_collectreport")
 
-	print(result.stdout)
-	logging.info(f"result.stdout:\n{result.stdout}")
+	logging.info(reports)
 
 	# make sure that we get a '0' exit code for the testsuite
 	assert result.ret == 0
@@ -101,8 +100,8 @@ def test_count_single_it_vt(pytester: Pytester):
 	pytester.makepyfile(test_single=SINGLE_MARK_FILE)
 
 	# run pytest with the following cmd args
-	result = pytester.inline_run('-m "it or vt"', '--mark-count="it vt"', f'-c {toml_path}')
-	reports = result.getreports("pytest_runtest_logreport")
+	result = pytester.inline_run('--collect-only', '--mark-count="it vt"', '-v')
+	reports = result.getreports("pytest_collectreport")
 
 	logging.info(reports)
 
