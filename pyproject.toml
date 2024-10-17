@@ -46,7 +46,6 @@ classifiers = [
 	"Programming Language :: Python :: Implementation :: PyPy",
 	"License :: OSI Approved :: BSD License",
 	"License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
-	"License-Expression :: BSD-3-Clause AND MPL 2.0",
 	"Topic :: Software Development :: Quality Assurance",
 	"Topic :: Software Development :: Testing",
 	"Topic :: Utilities",
