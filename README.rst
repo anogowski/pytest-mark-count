@@ -24,13 +24,12 @@ This `pytest`_ plugin was generated with `Cookiecutter`_ along with `@hackebrot`
 Features
 --------
 
-* TODO
-
+* Get list of Searched Markers. Get number of total_found_items, marked_found_items, unmarked_found_items, single_marked_found_items, multi_marked_found_items, unique_marked_searched_items, single_marked_searched_items, and multi_marked_searched_items
 
 Requirements
 ------------
 
-* TODO
+* See `requirements.txt`
 
 
 Installation
@@ -44,7 +43,8 @@ You can install "pytest-mark-count" via `pip`_ from `PyPI`_::
 Usage
 -----
 
-* TODO
+    $ --mark-count="it vt"
+    $ --mark-count-sep=True
 
 Contributing
 ------------
@@ -54,7 +54,7 @@ the coverage at least stays the same before you submit a pull request.
 License
 -------
 Dual License
-Distributed under the terms of the `Mozilla Public License 2.0`_ AND `BSD-3-Clause`_ licenses, "pytest-xml" is free and open source software
+Distributed under the terms of the `Mozilla Public License 2.0` AND `BSD-3-Clause` licenses, "pytest-xml" is free and open source software
 
 
 Issues

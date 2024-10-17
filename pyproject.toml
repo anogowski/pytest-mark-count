@@ -4,15 +4,29 @@
 #############################################
 
 [build-system]
-requires = ["setuptools>=61.0.0"]
+requires = ["setuptools>=61.0.0", "wheel>=0.44.0", "setuptools_scm[toml]>=3.4"]
 build-backend = "setuptools.build_meta"
+[tool.setuptools_scm]
+write_to = "src/pytest_mark_count/version.py"
 
 [project]
+dynamic = ["version"]
 name = "pytest-mark-count"
 description = "Get a count of the number of tests marked, unmarked, and unique tests if tests have multiple markers"
-version = "0.1.0"
-readme = "README.rst"
-requires-python = ">=3.8"
+keywords = [
+	"pytest",
+	"count",
+	"count mark",
+	"count marker",
+	"count markers",
+	"mark",
+	"marker",
+	"makers",
+	"marker info",
+	"marker data",
+]
+readme = { file = "README.txt", content-type = "text/x-rst" }
+requires-python = ">=3.10"
 authors = [{ name = "Adam Nogowski", email = "anogowski@live.com" }]
 maintainers = [{ name = "Adam Nogowski", email = "anogowski@live.com" }]
 license = { file = "LICENSE" }
@@ -20,21 +34,82 @@ classifiers = [
 	"Framework :: Pytest",
 	"Development Status :: 4 - Beta",
 	"Intended Audience :: Developers",
-	"Topic :: Software Development :: Testing",
+	"Long Description :: Get list of Searched Markers. Get number of total_found_items, marked_found_items, unmarked_found_items, single_marked_found_items, multi_marked_found_items, unique_marked_searched_items, single_marked_searched_items, and multi_marked_searched_items ",
 	"Operating System :: OS Independent",
 	"Programming Language :: Python",
-	"Programming Language :: Python :: 3.8",
-	"Programming Language :: Python :: 3.9",
 	"Programming Language :: Python :: 3.10",
 	"Programming Language :: Python :: 3.11",
 	"Programming Language :: Python :: 3.12",
+	"Programming Language :: Python :: 3.13",
 	"Programming Language :: Python :: 3 :: Only",
 	"Programming Language :: Python :: Implementation :: CPython",
 	"Programming Language :: Python :: Implementation :: PyPy",
-	"License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+	"License :: OSI Approved :: Dual Liscense: BSD-3-Clause AND Mozilla Public License 2.0 (MPL 2.0)",
+	"Topic :: Software Development :: Quality Assurance",
+	"Topic :: Software Development :: Testing",
+	"Topic :: Utilities",
 ]
 dependencies = ["pytest>=8.0.0"]
 [project.urls]
 Repository = "https://github.com/anogowski/pytest-mark-count"
+Issues = "https://github.com/anogowski/pytest-mark-count/issues"
 [project.entry-points.pytest11]
 mark-count = "pytest_mark_count.plugin"
+
+
+[tool.codespell]
+builtin = "clear,usage,en-GB_to_en-US"
+write-changes = true
+count = true
+
+[tool.pytest.ini_options]
+#Directories
+# Cached Files
+cache_dir = "./output/.pycache"
+# Example Files
+pytester_example_dir = "./test_examples"
+
+# Test Directories
+testpaths = ["./tests"]      #root testing directories
+junit_suite_name = "./tests"
+junit_family = "xunit2"
+
+# Non-Test Directories
+norecursedirs = [
+	"src",
+	"docs",
+	".vscode",
+	".venv",
+	".github",
+] #do not check these directories
+
+generate_report_on_test = true
+
+# Reports
+log_level = "INFO"
+log_format = "%(asctime)s %(funcName)s(%(filename)s:%(lineno)s)\n[%(levelname)8s]\t%(message)s"
+log_date_format = "%Y-%m-%d %H:%M:%S"
+
+# Terminal
+log_cli = true
+log_cli_level = "ERROR"
+log_cli_format = "%(asctime)s %(funcName)s(%(filename)s:%(lineno)s)\n[%(levelname)8s]\n%(funcName)s\t%(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+# File
+log_file = "./output/logs/results_pytest.log"
+log_file_level = "INFO"
+log_file_format = "%(asctime)s %(funcName)s(%(filename)s:%(lineno)s)\n[%(levelname)8s]\n%(funcName)s\t%(message)s"
+log_file_date_format = "%Y-%m-%d %H:%M:%S"
+
+
+#Command Line Flags
+# all cmd line flags for pytest: https://docs.pytest.org/en/8.0.x/reference/reference.html#command-line-flags
+addopts = "--showlocals -s -v --tb=auto --html=output/reports/report.html --self-contained-html"
+
+#Custom Markers
+markers = [
+	"it: Integration Tests",
+	"rt: Regression Tests",
+	"vt: Verification Tests",
+]
