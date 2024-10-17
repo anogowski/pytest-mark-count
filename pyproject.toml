@@ -54,9 +54,6 @@ Issues = "https://github.com/anogowski/pytest-mark-count/issues"
 [project.entry-points.pytest11]
 mark-count = "pytest_mark_count.plugin"
 
-[tool.setuptools.dynamic]
-readme = { file = ["README.rst"] }
-
 
 [tool.codespell]
 builtin = "clear,usage,en-GB_to_en-US"

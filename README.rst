@@ -24,7 +24,7 @@ This `pytest`_ plugin was generated with `Cookiecutter`_ along with `@hackebrot`
 Features
 --------
 
-* Get a count of the number of tests marked, unmarked, and unique tests if tests have multiple markers
+* Get list of Searched Markers. Get number of total_found_items, marked_found_items, unmarked_found_items, single_marked_found_items, multi_marked_found_items, unique_marked_searched_items, single_marked_searched_items, and multi_marked_searched_items
 
 Requirements
 ------------
@@ -44,7 +44,7 @@ Usage
 -----
 
     $ --mark-count="it vt"
-	$ --mark-count-sep=True
+    $ --mark-count-sep=True
 
 Contributing
 ------------
