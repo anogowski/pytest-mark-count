@@ -74,20 +74,6 @@ def test_collect_search_it_marker(pytester: Pytester):
 	#     ['*collected 4 items*', r"*Mark-Count: {total_found_items: 4, marked_found_items: 3, unmarked_found_items: 1, single_marked_found_items: 3, multi_marked_found_items: 0, unique_marked_searched_items: 1, single_marked_searched_items: 1, multi_marked_searched_items: 0, 'it': 1}*"])
 
 
-def test_my_plugin(pytester):
-	# Create a test file
-	pytester.makepyfile("""
-		import pytest
-
-		def test_example(metadata):
-			assert metadata['Python'].startswith('3')
-	""")
-
-	# Run pytest and check the result
-	result = pytester.runpytest()
-	result.assert_outcomes(passed=1)
-
-
 def test_count_it(pytester: Pytester):
 	"""Test --mark-count="it"."""
 	# create a temporary pyproject.toml
