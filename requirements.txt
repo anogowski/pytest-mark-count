@@ -1,12 +1,16 @@
 backports.tarfile==1.2.0
 build==1.2.2.post1
+cachetools==5.5.0
 certifi==2024.8.30
 cffi==1.17.1
+chardet==5.2.0
 charset-normalizer==3.4.0
 click==8.1.7
 colorama==0.4.6
 cryptography==43.0.1
+distlib==0.3.9
 docutils==0.21.2
+filelock==3.16.1
 ghp-import==2.1.0
 idna==3.10
 importlib_metadata==8.5.0
@@ -33,6 +37,7 @@ platformdirs==4.3.6
 pluggy==1.5.0
 pycparser==2.22
 Pygments==2.18.0
+pyproject-api==1.8.0
 pyproject_hooks==1.2.0
 pytest==8.3.3
 pytest-html==4.1.1
@@ -47,8 +52,12 @@ requests-toolbelt==1.0.0
 rfc3986==2.0.0
 rich==13.9.2
 SecretStorage==3.3.3
+setuptools-scm==8.1.0
 six==1.16.0
+tox==4.23.0
 twine==5.1.1
 urllib3==2.2.3
+versiontag==1.2.0
+virtualenv==20.26.6
 watchdog==5.0.3
 zipp==3.20.2
