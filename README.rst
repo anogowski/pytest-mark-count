@@ -24,13 +24,12 @@ This `pytest`_ plugin was generated with `Cookiecutter`_ along with `@hackebrot`
 Features
 --------
 
-* TODO
-
+* Get a count of the number of tests marked, unmarked, and unique tests if tests have multiple markers
 
 Requirements
 ------------
 
-* TODO
+* See `requirements.txt`
 
 
 Installation
@@ -44,7 +43,8 @@ You can install "pytest-mark-count" via `pip`_ from `PyPI`_::
 Usage
 -----
 
-* TODO
+    $ --mark-count="it vt"
+	$ --mark-count-sep=True
 
 Contributing
 ------------

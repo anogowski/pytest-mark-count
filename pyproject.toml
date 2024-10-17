@@ -4,14 +4,28 @@
 #############################################
 
 [build-system]
-requires = ["setuptools>=61.0.0"]
+requires = ["setuptools>=61.0.0", "wheel>=0.44.0", "setuptools_scm[toml]>=3.4"]
 build-backend = "setuptools.build_meta"
+[tool.setuptools_scm]
+write_to = "src/pytest_mark_count/version.py"
 
 [project]
+dynamic = ["version"]
 name = "pytest-mark-count"
 description = "Get a count of the number of tests marked, unmarked, and unique tests if tests have multiple markers"
-version = "0.1.0"
-readme = "README.rst"
+keywords = [
+	"pytest",
+	"count",
+	"count mark",
+	"count marker",
+	"count markers",
+	"mark",
+	"marker",
+	"makers",
+	"marker info",
+	"marker data",
+]
+readme = { file = "README.txt", content-type = "text/x-rst" }
 requires-python = ">=3.8"
 authors = [{ name = "Adam Nogowski", email = "anogowski@live.com" }]
 maintainers = [{ name = "Adam Nogowski", email = "anogowski@live.com" }]
@@ -31,13 +45,18 @@ classifiers = [
 	"Programming Language :: Python :: 3 :: Only",
 	"Programming Language :: Python :: Implementation :: CPython",
 	"Programming Language :: Python :: Implementation :: PyPy",
-	"License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+	"License :: OSI Approved :: Dual Liscense: BSD-3-Clause AND Mozilla Public License 2.0 (MPL 2.0)",
 ]
 dependencies = ["pytest>=8.0.0"]
 [project.urls]
 Repository = "https://github.com/anogowski/pytest-mark-count"
+Issues = "https://github.com/anogowski/pytest-mark-count/issues"
 [project.entry-points.pytest11]
 mark-count = "pytest_mark_count.plugin"
+
+[tool.setuptools.dynamic]
+readme = { file = ["README.rst"] }
+
 
 [tool.codespell]
 builtin = "clear,usage,en-GB_to_en-US"
