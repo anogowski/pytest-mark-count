@@ -34,7 +34,7 @@ classifiers = [
 	"Framework :: Pytest",
 	"Development Status :: 4 - Beta",
 	"Intended Audience :: Developers",
-	"Topic :: Software Development :: Testing",
+	"Long Description :: Get list of Searched Markers. Get number of total_found_items, marked_found_items, unmarked_found_items, single_marked_found_items, multi_marked_found_items, unique_marked_searched_items, single_marked_searched_items, and multi_marked_searched_items ",
 	"Operating System :: OS Independent",
 	"Programming Language :: Python",
 	"Programming Language :: Python :: 3.10",
@@ -45,6 +45,9 @@ classifiers = [
 	"Programming Language :: Python :: Implementation :: CPython",
 	"Programming Language :: Python :: Implementation :: PyPy",
 	"License :: OSI Approved :: Dual Liscense: BSD-3-Clause AND Mozilla Public License 2.0 (MPL 2.0)",
+	"Topic :: Software Development :: Quality Assurance",
+	"Topic :: Software Development :: Testing",
+	"Topic :: Utilities",
 ]
 dependencies = ["pytest>=8.0.0"]
 [project.urls]

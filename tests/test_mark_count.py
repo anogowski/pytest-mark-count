@@ -3,13 +3,12 @@
 #	Copyright (c) 2024, Adam Nogowski		#
 #############################################
 
-import cmd
-import logging, os
-from subprocess import CompletedProcess
-from typing import Final, Sequence
-import pytest
-from pytest import HookRecorder, Pytester, RunResult, TestReport
+import logging
+from typing import Final
 from pathlib import Path
+
+import pytest
+from pytest import Pytester, RunResult
 
 ROOT_DIR: Final[Path] = Path(__file__).parent.parent.absolute()
 EXAMPLE_DIR: Final[Path] = Path(ROOT_DIR / "test_examples")
