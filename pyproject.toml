@@ -34,7 +34,6 @@ classifiers = [
 	"Framework :: Pytest",
 	"Development Status :: 4 - Beta",
 	"Intended Audience :: Developers",
-	"Long Description :: Get list of Searched Markers. Get number of total_found_items, marked_found_items, unmarked_found_items, single_marked_found_items, multi_marked_found_items, unique_marked_searched_items, single_marked_searched_items, and multi_marked_searched_items ",
 	"Operating System :: OS Independent",
 	"Programming Language :: Python",
 	"Programming Language :: Python :: 3.10",
