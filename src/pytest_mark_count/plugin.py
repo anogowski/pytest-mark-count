@@ -108,13 +108,13 @@ class MarkCountPlugin:
 				self._markers_count[name] += 1
 
 	def pytest_report_collectionfinish(self, config: Config, start_path: Path, items: list[Item]) -> str | list[str]:
-		self.config.stash[metadata_key]["Searched Markers"] = self.config.option.count_markers
+		self.config.stash[metadata_key]["Searched_Markers"] = self.config.option.count_markers
 
 		if self.config.option.separate_markers:
 			for key, value in self._markers_count.items():
 				config.stash[metadata_key][key] = value
 		else:
-			self.config.stash[metadata_key]["Marked Dict"] = self._markers_count
+			self.config.stash[metadata_key]["Marked_Dict"] = self._markers_count
 
 		return f"Mark-Count: {str(self.mark_count_dict)}"
 
